@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+const http = require('http');
+const app = require('../app');
+const grpc = require('../grpc');
+
+const port = process.env.PORT || 3000;
+app.set('port', port);
+const grpcPort = 30051;
+
+const server = http.createServer(app);
+
+server.listen(port, function (err) {
+  if (err) {
+    console.log(`Error starting on ${port}`, err);
+    process.exit(1);
+  }
+  console.log(`listening http on port ${port}`);
+});
+
+console.log(`listening for gRPC on port ${grpcPort}`);
+grpc(grpcPort);
