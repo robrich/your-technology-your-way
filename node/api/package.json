@@ -13,6 +13,7 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "nocache": "^2.1.0",
-    "sqlite": "^3.0.3"
+    "sqlite": "^3.0.3",
+    "sqlite3": "^4.1.1"
   }
 }
