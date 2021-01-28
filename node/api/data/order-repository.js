@@ -1,8 +1,10 @@
-const sqlite = require('sqlite');
+import sqlite3 from 'sqlite3';
+import { open } from 'sqlite';
+import { resolve, dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
-module.exports = { getAll, getNextPending, add, update };
-
-const PATH = __dirname+'/../../orders.db';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const PATH = resolve(join(__dirname,'../../orders.db'));
 let db = undefined; // not initialized yet
 
 // auto-creates `rowid` column
@@ -14,13 +16,16 @@ CREATE TABLE IF NOT EXISTS orders (
   status TEXT NOT NULL
 )`;
 async function getDb() {
-  db = await sqlite.open(PATH);
-  console.log(`db connected`);
+  db = await open({
+    filename: PATH,
+    driver: sqlite3.Database
+  });
+  console.log('db connected');
 
   await db.run(createTable);
 }
 
-async function getAll() {
+export async function getAll() {
   if (!db) {
     await getDb();
   }
@@ -29,7 +34,7 @@ async function getAll() {
   return rows || [];
 }
 
-async function getNextPending() {
+export async function getNextPending() {
   if (!db) {
     await getDb();
   }
@@ -41,7 +46,7 @@ async function getNextPending() {
   return 0;
 }
 
-async function add({order}) {
+export async function add({order}) {
   if (!db) {
     await getDb();
   }
@@ -51,7 +56,7 @@ async function add({order}) {
   return order.orderId;
 }
 
-async function update({orderId, status}) {
+export async function update({orderId, status}) {
   if (!db) {
     await getDb();
   }

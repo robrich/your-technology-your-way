@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option csharp_namespace = "OrderProcess.Server.Services";
+
+package OrdersHandler;
+
+// The orders service definition.
+service OrdersManager {
+  // Gets an order from the database
+  rpc GetNewOrder (NewOrderRequest) returns (NewOrderReply) {}
+  rpc UpdateOrder (UpdateOrderRequest) returns (UpdateOrderReply) {}
+}
+
+// The order request
+message NewOrderRequest {
+
+}
+
+// The id of the order which must be processed
+message NewOrderReply {
+  int32 orderId = 1;
+}
+
+message UpdateOrderRequest {
+  int32 orderId = 1;
+  string status = 2;
+}
+
+message UpdateOrderReply {
+
+}

@@ -1,12 +1,14 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const logger = require('morgan');
-const nocache = require('nocache');
+import createError from 'http-errors';
+import express from 'express';
+import logger from 'morgan';
+import nocache from 'nocache';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
-require('./async-router-patch'); // before requiring routes
-const orderRouter = require('./routes/order');
-const versionRouter = require('./routes/version');
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+import orderRouter from './routes/order.js';
+import versionRouter from './routes/version.js';
 
 const app = express();
 
@@ -15,7 +17,7 @@ app.use(nocache());
 app.set('etag', false);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(join(__dirname, 'public')));
 
 app.use('/api/order', orderRouter);
 app.use('/api/version', versionRouter);
@@ -29,13 +31,14 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   const msg = {
-    message: err.message,
+    message: err?.message,
     error: req.app.get('env') === 'development' ? err : {}
   };
+  console.log(`error at ${req.url}`, {err});
 
   // render the error page
-  res.status(err.status || 500);
+  res.status(err?.status || 500);
   res.json(msg);
 });
 
-module.exports = app;
+export default app;

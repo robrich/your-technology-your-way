@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <h1>A Vue.js / Express / Node / gRPC App</h1>
-    <p>Inspired by the Blazor demo from ASP.NET Insiders 2019 tour</p>
+    <p>Inspired by the ASP.NET Insiders 2019 tour</p>
     <div>
       <h2>Server details</h2>
       <p>Language: {{language}}</p>

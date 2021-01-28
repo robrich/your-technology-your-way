@@ -1,0 +1,29 @@
+@page "/about"
+@inject HttpClient Http
+
+<h1>A Blazor / Worker Service / gRPC App</h1>
+<p>Inspired by the ASP.NET Insiders 2019 tour</p>
+
+<div>
+    <h2>Server details</h2>
+    <p>Language: @language</p>
+    <p>Runtime: @runtime</p>
+    <p>Version: @version</p>
+</div>
+
+@code {
+    public string language;
+    public string runtime;
+    public string version;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await Http.GetFromJsonAsync<VersionInfo>("api/Version");
+        if (result != null)
+        {
+            this.language = result.Language;
+            this.runtime = result.Runtime;
+            this.version = result.Version;
+        }
+    }
+}

@@ -1,8 +1,12 @@
-const grpc = require('grpc');
-const protoLoader = require('@grpc/proto-loader');
-const util = require('util');
+import grpc from 'grpc';
+import protoLoader from '@grpc/proto-loader';
+import { promisify } from 'util';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs/promises';
 
-const PROTO_PATH = __dirname+'/protos/ordershandler.proto';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const PROTO_PATH = resolve(__dirname+'/protos/ordershandler.proto');
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
   longs: String,
@@ -12,14 +16,18 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 const ordersHandler = grpc.loadPackageDefinition(packageDefinition).OrdersHandler;
 
-const PORT = '30051';
+const PORT = '3001';
+//const PORT = '5001';
 
 main();
-function main() {
+async function main() {
+  const pem = await fs.readFile('../.cert/devcert.pem');
   console.log(`starting up Node service at ${new Date().toLocaleTimeString()}`);
-  const client = new ordersHandler.OrdersManager(`localhost:${PORT}`, grpc.credentials.createInsecure());
-  client.GetNewOrder = util.promisify(client.GetNewOrder);
-  client.UpdateOrder = util.promisify(client.UpdateOrder);
+  const client = new ordersHandler.OrdersManager(`localhost:${PORT}`, grpc.credentials.createSsl(pem)); // .createInsecure());
+  // no cert? use this:
+  //const client = new ordersHandler.OrdersManager(`localhost:${PORT}`, grpc.credentials.createInsecure());
+  client.GetNewOrder = promisify(client.GetNewOrder);
+  client.UpdateOrder = promisify(client.UpdateOrder);
   processOrder(client);
 }
 

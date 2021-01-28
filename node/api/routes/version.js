@@ -1,5 +1,6 @@
-const express = require('express');
-const router = express.Router();
+import Router from 'express-promise-router';
+
+const router = Router();
 
 router.get('/', async function(req, res) {
   const version = {
@@ -10,4 +11,4 @@ router.get('/', async function(req, res) {
   res.json(version);
 });
 
-module.exports = router;
+export default router;

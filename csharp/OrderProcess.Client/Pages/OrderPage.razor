@@ -1,0 +1,96 @@
+@page "/order"
+@inject HttpClient Http
+
+<aside>
+    <h3>Add new order</h3>
+    
+    <form @onsubmit="@SaveOrder">
+        <div class="form-group">
+            <label>Description:</label>
+            <input type="text" class="form-control" @bind="description" />
+        </div>
+        <div class="form-group">
+            <label>Quantity:</label>
+            <input type="number" class="form-control" @bind="quantity" />
+        </div>
+        <div class="form-group">
+            <label>Total:</label>
+            <input type="number" class="form-control" @bind="total" />
+        </div>
+        <div class="input-group">
+            <button type="submit" class="btn btn-primary">Save order</button>
+            <button type="reset" class="btn btn-secondary" @onclick="@RefreshOrders">Refresh orders</button>
+        </div>
+    </form>
+</aside>
+
+<article>
+    <h3>Orders</h3>
+
+    @if (orders == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <table class="table responsive-table">
+            <thead>
+                <tr>
+                    <th scope="col">Order id</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in orders)
+                {
+                    <tr>
+                        <th scope="row">@order.OrderId</th>
+                        <td data-title="Description">@order.Description</td>
+                        <td data-title="Quantity">@order.Quantity</td>
+                        <td data-title="Total">@order.Total</td>
+                        <td data-title="Status">@order.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</article>
+
+@code {
+    public string description;
+    public int quantity;
+    public int total;
+    public List<Order> orders { get; set; }
+
+    public async Task SaveOrder()
+    {
+        
+        Order order = new Order
+        {
+            Description = description,
+            Quantity = quantity,
+            Total = total,
+            Status = "Pending"
+        };
+
+        await Http.PostAsJsonAsync("api/Order", order);
+        await RefreshOrders();
+
+        description = "";
+        quantity = 0;
+        total = 0;
+    }
+
+    public async Task RefreshOrders()
+    {
+        orders = await Http.GetFromJsonAsync<List<Order>>("api/Order");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshOrders();
+    }
+}
