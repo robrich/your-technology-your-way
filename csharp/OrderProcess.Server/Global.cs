@@ -1,0 +1,10 @@
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.RazorPages;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using Microsoft.Extensions.Diagnostics.HealthChecks;
+global using System.Diagnostics;
+global using Grpc.Core;
+global using HealthChecks.UI.Client;
+global using OrderProcess.Shared.Models;
+global using OrderProcess.Data.Repositories;
+global using OrderProcess.Server.Services;

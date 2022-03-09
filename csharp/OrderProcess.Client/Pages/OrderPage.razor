@@ -60,14 +60,14 @@
 </article>
 
 @code {
-    public string description;
-    public int quantity;
-    public int total;
-    public List<Order> orders { get; set; }
+    public string description { get; set; } = "";
+    public int quantity { get; set; }
+    public int total { get; set; }
+    public List<Order> orders { get; set; } = new List<Order>();
 
     public async Task SaveOrder()
     {
-        
+
         Order order = new Order
         {
             Description = description,
@@ -86,7 +86,7 @@
 
     public async Task RefreshOrders()
     {
-        orders = await Http.GetFromJsonAsync<List<Order>>("api/Order");
+        orders = await Http.GetFromJsonAsync<List<Order>>("api/Order") ?? new List<Order>();
     }
 
     protected override async Task OnInitializedAsync()

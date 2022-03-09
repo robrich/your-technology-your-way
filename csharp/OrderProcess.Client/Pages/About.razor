@@ -1,7 +1,13 @@
 @page "/about"
 @inject HttpClient Http
 
-<h1>A Blazor / Worker Service / gRPC App</h1>
+<h1>A modern app in C#:</h1>
+<ul>
+    <li>C# SPA with Blazor</li>
+    <li>ASP.NET Core Minimal API</li>
+    <li>Worker Service</li>
+    <li>gRPC</li>
+</ul>
 <p>Inspired by the ASP.NET Insiders 2019 tour</p>
 
 <div>
@@ -12,13 +18,13 @@
 </div>
 
 @code {
-    public string language;
-    public string runtime;
-    public string version;
+    public string? language { get; set; }
+    public string? runtime { get; set; }
+    public string? version { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await Http.GetFromJsonAsync<VersionInfo>("api/Version");
+        var result = await Http.GetFromJsonAsync<VersionData>("api/Version");
         if (result != null)
         {
             this.language = result.Language;

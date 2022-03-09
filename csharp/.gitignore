@@ -3,4 +3,5 @@ bin
 obj
 *.user
 *.suo
-BlazorOrders.db
+orders.db
+dist

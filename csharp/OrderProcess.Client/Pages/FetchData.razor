@@ -1,6 +1,7 @@
 @page "/fetchdata"
-@using OrderProcess.Shared.Models
 @inject HttpClient Http
+
+<PageTitle>Weather forecast</PageTitle>
 
 <h1>Weather forecast</h1>
 
@@ -36,11 +37,10 @@ else
 }
 
 @code {
-    private WeatherForecast[] forecasts;
+    private WeatherForecast[]? forecasts;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("api/WeatherForecast");
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("/api/weatherforecast");
     }
-
 }

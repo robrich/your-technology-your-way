@@ -4,23 +4,39 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "// vite": "(faster)",
+    "dev": "vite",
+    "vite:build": "vite build",
+    "// vue cli": "(more familiar)",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint --fix",
+    "// src/router/index.ts": "process.env / import.meta is incompatable, flip the line to use Vite or Vue-cli"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.26.1",
     "core-js": "^3.8.3",
-    "vue": "^2.6.12",
-    "vue-router": "^3.5.1"
+    "register-service-worker": "^1.7.2",
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.3"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.5.11",
-    "@vue/cli-plugin-eslint": "^4.5.11",
-    "@vue/cli-service": "^4.5.11",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.12"
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "@vitejs/plugin-vue": "^2.2.4",
+    "@vue/cli-plugin-babel": "^5.0.0",
+    "@vue/cli-plugin-eslint": "^5.0.0",
+    "@vue/cli-plugin-pwa": "^5.0.0",
+    "@vue/cli-plugin-router": "^5.0.0",
+    "@vue/cli-plugin-typescript": "^5.0.0",
+    "@vue/cli-service": "^5.0.0",
+    "@vue/eslint-config-typescript": "^9.1.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "sass": "^1.32.7",
+    "sass-loader": "^12.0.0",
+    "typescript": "^4.5.5",
+    "vite": "^2.8.6",
+    "webpack": "^5.70.0"
   }
 }

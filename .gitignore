@@ -1,2 +1,4 @@
 .cert
 debug.log
+.DS_Store
+*.orig
